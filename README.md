@@ -6,7 +6,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## 🚀 Características Competitivas del Diseño
+##  Características Competitivas del Diseño
 
 1.  **Arranque Autónomo por Luz (LDR):** Cumple con la regla oficial del arranque autónomo. Cuenta con un módulo digital con filtro antirrebote de 10 ms e histéresis temporal que evita arranques falsos ante flashes u oscilaciones de luz ambiental. Una vez detectada la señal de salida, la bandera de carrera se enclava de forma permanente.
 2.  **Modulación PWM Dual (20.7 kHz):** Provee control continuo de velocidad de 8 bits para dos micromotores N20 a través de un puente H TB6612FNG, eliminando ruidos audibles en los bobinados y optimizando la entrega de torque.
@@ -15,7 +15,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## 📂 Estructura del Repositorio
+## Estructura del Repositorio
 
 *   **`src/`**: Archivos de código fuente y restricciones.
     *   `seguidor_linea.v`: Módulo top-level integrador.
@@ -33,7 +33,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## ⚖️ Verificación de Requisitos (Comité Técnico)
+##  Verificación de Requisitos (Comité Técnico)
 
 *   **Línea de seguimiento:** Negra, de 2 cm sobre fondo blanco.
 *   **Sensores utilizados:** Arreglo frontal de 5 sensores infrarrojos.
