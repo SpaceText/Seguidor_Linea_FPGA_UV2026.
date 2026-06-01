@@ -44,13 +44,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## 🛠️ Instrucciones de Ejecución
 
-Para grabar el controlador en tu hardware:
-1. Abre **Gowin Programmer**.
-2. Conecta la **Tang Nano 9K** mediante USB.
-3. Carga el archivo precompilado ubicado en: `/fpga_project_seguidor/impl/pnr/fpga_project_seguidor.fs`.
-4. Elige **Access Mode: Embedded Flash Mode** y presiona **Play**.
 
 ---
-*Desarrollado para la carrera de alcance de seguidores de línea - Facultad de Ingeniería UV, 2026.*
+*Desarrollado para la carrera de alcance de seguidores de línea - Facultad de Instrumentación Electrónica  UV, 2026.*
