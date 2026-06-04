@@ -54,8 +54,8 @@ Para grabar el controlador en tu hardware:
 
 Pruebas:
 ![Mi carrito en la pista](pruebas/imagen1.jpeg)
-![Mi carrito en la pista](media/video1.mp4)
-![Mi carrito en la pista](media/video2.mp4)
+![Mi carrito en la pista](pruebas/video1.mp4)
+![Mi carrito en la pista](pruebas/video2.mp4)
 
 
 
