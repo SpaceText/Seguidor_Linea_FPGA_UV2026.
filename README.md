@@ -52,5 +52,14 @@ Para grabar el controlador en tu hardware:
 3. Carga el archivo precompilado ubicado en: `/fpga_project_seguidor/impl/pnr/fpga_project_seguidor.fs`.
 4. Elige **Access Mode: Embedded Flash Mode** y presiona **Play**.
 
+Pruebas:
+![Mi carrito en la pista](pruebas/imagen1.jpeg)
+![Mi carrito en la pista](media/video1.mp4)
+![Mi carrito en la pista](media/video2.mp4)
+
+
+
+
+
 ---
 *Desarrollado para la carrera de alcance de seguidores de línea - Facultad de Ingeniería UV, 2026.*
