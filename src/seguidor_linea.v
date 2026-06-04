@@ -17,10 +17,11 @@ module seguidor_linea (
     input  wire S4,          // Sensor derecho centro (Pin 31)
     input  wire S5,          // Sensor extremo derecho (Pin 32)
     input  wire LDR_IN,      // Sensor óptico de arranque autónomo (Pin 33)
-    output wire M_IZQ,       // Velocidad Motor Izquierdo - PWM (Pin 10 - LED0)
-    output wire M_DER,       // Velocidad Motor Derecho - PWM (Pin 11 - LED1)
-    output wire M_IZQ_DIR,   // Dirección Motor Izquierdo (Pin 34 - 0:FWD, 1:REV)
-    output wire M_DER_DIR,   // Dirección Motor Derecho (Pin 35 - 0:FWD, 1:REV)
+    output wire M_IZQ,       // Velocidad Motor Izquierdo - PWM (Pin 40)
+    output wire M_DER,       // Velocidad Motor Derecho - PWM (Pin 41)
+    output wire M_IZQ_DIR,   // Dirección Motor Izquierdo (Pin 34)
+    output wire M_DER_DIR,   // Dirección Motor Derecho (Pin 35)
+    
     output wire LED_REC,     // LED marcha recta (Pin 13 - LED2, activo en bajo)
     output wire LED_IZQ,     // LED giro izquierda (Pin 14 - LED3, activo en bajo)
     output wire LED_DER,     // LED giro derecha (Pin 15 - LED4, activo en bajo)
@@ -33,6 +34,8 @@ module seguidor_linea (
     wire [7:0] duty_cycle_der;
     wire       dir_izq_internal;
     wire       dir_der_internal;
+    wire       pwm_izq_internal;
+    wire       pwm_der_internal;
     wire       led_rec_internal;
     wire       led_izq_internal;
     wire       led_der_internal;
@@ -40,20 +43,23 @@ module seguidor_linea (
 
     // --- INSTANCIACIÓN DE SUBMÓDULOS ---
 
-    // 1. Filtro del Sensor de Arranque LDR
+    // 1. Filtro del Sensor de Arranque LDR (LÓGICA INVERTIDA PARA PRUEBA)
     filtro_arranque inst_filtro_arranque (
         .CLK(CLK),
         .RST(RST),
-        .LDR_IN(LDR_IN),
+        .LDR_IN(~LDR_IN), // Vuelve a estar invertido: LUZ = 0 analógico -> 1 Digital
         .start_flag(start_flag)
     );
+    
+    // ARRANQUE DIRECTO DESACTIVADO
+    // assign start_flag = 1'b1;
 
-    // 2. Núcleo Lógico del Seguidor de Línea
+    // 2. Núcleo Lógico del Seguidor de Línea (SE INVIERTEN LOS SENSORES AQUÍ)
     seguidor_linea_core inst_seguidor_core (
         .CLK(CLK),
         .RST(RST),
         .start_flag(start_flag),
-        .S1(S1), .S2(S2), .S3(S3), .S4(S4), .S5(S5),
+        .S1(~S1), .S2(~S2), .S3(~S3), .S4(~S4), .S5(~S5), // <-- Lógica Invertida
         .duty_cycle_izq(duty_cycle_izq),
         .duty_cycle_der(duty_cycle_der),
         .dir_izq(dir_izq_internal),
@@ -70,15 +76,21 @@ module seguidor_linea (
         .RST(RST),
         .duty_cycle_izq(duty_cycle_izq),
         .duty_cycle_der(duty_cycle_der),
-        .PWM_IZQ(M_IZQ), // La salida del PWM maneja directamente el motor
-        .PWM_DER(M_DER)
+        .PWM_IZQ(pwm_izq_internal),
+        .PWM_DER(pwm_der_internal)
     );
 
-    // --- ASIGNACIONES ELÉCTRICAS DE CONTROL ---
+    // --- ASIGNACIONES ELÉCTRICAS DE CONTROL (Adaptación para L298N a 4 hilos) ---
+    // Si dir = 0 (Adelante): IN1 recibe PWM, IN2 recibe 0
+    // Si dir = 1 (Atrás):    IN1 recibe 0,   IN2 recibe PWM
     
-    // Las direcciones se envían directo al puente H
-    assign M_IZQ_DIR = dir_izq_internal;
-    assign M_DER_DIR = dir_der_internal;
+    // Motor Izquierdo
+    assign M_IZQ     = (dir_izq_internal == 1'b0) ? pwm_izq_internal : 1'b0; // Conectar a IN1
+    assign M_IZQ_DIR = (dir_izq_internal == 1'b1) ? pwm_izq_internal : 1'b0; // Conectar a IN2
+
+    // Motor Derecho
+    assign M_DER     = (dir_der_internal == 1'b0) ? pwm_der_internal : 1'b0; // Conectar a IN3
+    assign M_DER_DIR = (dir_der_internal == 1'b1) ? pwm_der_internal : 1'b0; // Conectar a IN4
 
     // Inversión lógica para LEDs active-low de la placa Tang Nano 9K
     assign LED_REC  = ~led_rec_internal;

@@ -25,11 +25,11 @@ module seguidor_linea_core (
     output reg        LED_STOP_state   // LED parada
 );
 
-    // --- PARÁMETROS DE VELOCIDAD (Ajustables para calibración en pista) ---
-    localparam [7:0] VEL_MAX  = 8'd225; // Velocidad en recta (máximo torque)
-    localparam [7:0] VEL_MED  = 8'd150; // Velocidad para curvas suaves / compensación
-    localparam [7:0] VEL_MIN  = 8'd70;  // Velocidad lenta para giro controlado
-    localparam [7:0] VEL_REV  = 8'd130; // Velocidad de retroceso para giro de pivote fuerte
+    // --- PARÁMETROS DE VELOCIDAD EXTREMA (Configuración de Carrera) ---
+    localparam [7:0] VEL_MAX  = 8'd255; // Velocidad en recta (100% - Límite físico del hardware)
+    localparam [7:0] VEL_MED  = 8'd235; // Correcciones leves casi a tope (para no perder vuelo en curvas abiertas)
+    localparam [7:0] VEL_MIN  = 8'd200; // Curvas cerradas bastante rápidas
+    localparam [7:0] VEL_REV  = 8'd220; // Giro de pivote sumamente agresivo
 
     // --- PARÁMETRO DE TIEMPO LÍNEA PERDIDA (2 segundos a 27 MHz = 54,000,000 ciclos) ---
     localparam [25:0] TIMEOUT_PERDIDA = 26'd54000000;
@@ -77,7 +77,7 @@ module seguidor_linea_core (
         end else begin
             case ({S1, S2, S3, S4, S5})
                 // --- AVANCE RECTO / LEVE DESVIACIÓN (Rectas rápidas) ---
-                5'b00100: // Recto puro
+                5'b00100: // Recto puro (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_MAX;
                     duty_cycle_der <= VEL_MAX;
@@ -90,7 +90,7 @@ module seguidor_linea_core (
                     last_direction <= 2'b00;
                     lost_timer     <= 26'd0;
                 end
-                5'b01100: // Desviación leve izquierda
+                5'b01100: // Desviación leve izquierda (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_MED; // Frenar motor interno
                     duty_cycle_der <= VEL_MAX;
@@ -103,7 +103,7 @@ module seguidor_linea_core (
                     last_direction <= 2'b01; // Guardar última corrección izquierda
                     lost_timer     <= 26'd0;
                 end
-                5'b00110: // Desviación leve derecha
+                5'b00110: // Desviación leve derecha (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_MAX;
                     duty_cycle_der <= VEL_MED; // Frenar motor interno
@@ -118,7 +118,7 @@ module seguidor_linea_core (
                 end
 
                 // --- GIRO CERRADO A LA IZQUIERDA ---
-                5'b01000: // Curva estándar izquierda
+                5'b01000: // Curva estándar izquierda (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_MIN;
                     duty_cycle_der <= VEL_MAX;
@@ -131,7 +131,7 @@ module seguidor_linea_core (
                     last_direction <= 2'b01;
                     lost_timer     <= 26'd0;
                 end
-                5'b10000: // Curva muy cerrada / Fuerte (Giro sobre su propio eje - Pivote)
+                5'b10000: // Curva muy cerrada izquierda (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_REV; // Motor interno marcha atrás
                     duty_cycle_der <= VEL_MAX;
@@ -146,7 +146,7 @@ module seguidor_linea_core (
                 end
 
                 // --- GIRO CERRADO A LA DERECHA ---
-                5'b00010: // Curva estándar derecha
+                5'b00010: // Curva estándar derecha (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_MAX;
                     duty_cycle_der <= VEL_MIN;
@@ -159,7 +159,7 @@ module seguidor_linea_core (
                     last_direction <= 2'b10;
                     lost_timer     <= 26'd0;
                 end
-                5'b00001: // Curva muy cerrada / Fuerte (Giro sobre su propio eje - Pivote)
+                5'b00001: // Curva muy cerrada derecha (Línea de 1cm)
                 begin
                     duty_cycle_izq <= VEL_MAX;
                     duty_cycle_der <= VEL_REV; // Motor interno marcha atrás

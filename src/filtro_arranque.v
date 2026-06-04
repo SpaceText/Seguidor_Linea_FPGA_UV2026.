@@ -16,8 +16,8 @@ module filtro_arranque (
     output reg  start_flag   // Bandera de inicio habilitada (Enclavada en 1)
 );
 
-    // Parámetro para retardo de 10 ms a 27 MHz (10ms * 27,000,000 Hz = 270,000 ciclos)
-    localparam [18:0] UMBRAL_FILTRO = 19'd270000;
+    // Parámetro reducido y acumulativo para evitar problemas con sensores analógicos ruidosos
+    localparam [18:0] UMBRAL_FILTRO = 19'd50000; // Menos tiempo requerido
 
     reg [18:0] contador;
 
@@ -27,18 +27,19 @@ module filtro_arranque (
             start_flag <= 1'b0;
         end else begin
             if (start_flag) begin
-                // Si ya inició la carrera, la bandera queda enclavada
                 start_flag <= 1'b1;
             end else if (LDR_IN) begin
-                // Incrementar el contador si detecta luz estable
+                // Incrementar contador si ve luz
                 if (contador >= UMBRAL_FILTRO) begin
-                    start_flag <= 1'b1; // Habilitar inicio definitivo
+                    start_flag <= 1'b1;
                 end else begin
                     contador <= contador + 1'b1;
                 end
             end else begin
-                // Resetear contador ante cualquier caída (ruido o sombra momentánea)
-                contador <= 19'd0;
+                // Bajar el contador lentamente si hay sombra, no resetear a 0 de golpe
+                if (contador > 19'd0) begin
+                    contador <= contador - 1'b1;
+                end
             end
         end
     end
