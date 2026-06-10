@@ -77,6 +77,8 @@ Este resultado reconoce el trabajo realizado en el diseño, construcción y prog
 
 #### Demostración del funcionamiento
 ![Demostración](https://drive.google.com/file/d/1cjfaxPKcUf6BWnYPSk9UGNIVukGlOuq9/view?usp=sharing)
+Video de la demostración:
+https://drive.google.com/file/d/1cjfaxPKcUf6BWnYPSk9UGNIVukGlOuq9/view?usp=sharing
 
 #### Equipo participante
 ![Equipo](https://github.com/SpaceText/Seguidor_Linea_FPGA_UV2026./blob/main/pruebas/Imagen3expoInovatek.jpeg)
