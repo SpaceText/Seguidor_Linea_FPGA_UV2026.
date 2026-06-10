@@ -6,7 +6,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## 🚀 Características Competitivas del Diseño
+##  Características Competitivas del Diseño
 
 1.  **Arranque Autónomo por Luz (LDR):** Cumple con la regla oficial del arranque autónomo. Cuenta con un módulo digital con filtro antirrebote de 10 ms e histéresis temporal que evita arranques falsos ante flashes u oscilaciones de luz ambiental. Una vez detectada la señal de salida, la bandera de carrera se enclava de forma permanente.
 2.  **Modulación PWM Dual (20.7 kHz):** Provee control continuo de velocidad de 8 bits para dos micromotores N20 a través de un puente H TB6612FNG, eliminando ruidos audibles en los bobinados y optimizando la entrega de torque.
@@ -15,7 +15,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## 📂 Estructura del Repositorio
+## Estructura del Repositorio
 
 *   **`src/`**: Archivos de código fuente y restricciones.
     *   `seguidor_linea.v`: Módulo top-level integrador.
@@ -33,7 +33,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## ⚖️ Verificación de Requisitos (Comité Técnico)
+##  Verificación de Requisitos (Comité Técnico)
 
 *   **Línea de seguimiento:** Negra, de 2 cm sobre fondo blanco.
 *   **Sensores utilizados:** Arreglo frontal de 5 sensores infrarrojos.
@@ -44,7 +44,7 @@ El diseño está implementado en hardware digital paralelo sobre una FPGA **Gowi
 
 ---
 
-## 🛠️ Instrucciones de Ejecución
+##  Instrucciones de Ejecución
 
 Para grabar el controlador en tu hardware:
 1. Abre **Gowin Programmer**.
@@ -56,7 +56,34 @@ Pruebas:
 ![Mi carrito en la pista](pruebas/imagen1.jpeg)
 ![Mi carrito en la pista](pruebas/video1.mp4)
 ![Mi carrito en la pista](pruebas/video2.mp4)
+## Participación en Eventos
 
+### Expo Inovatek 2026
+
+El proyecto **Seguidor de Línea con FPGA** fue presentado en la **Expo Inovatek 2026**, realizada el **4 de junio de 2026** en el **Gimnasio de la Universidad Veracruzana (UV)**.
+
+Durante la exposición se mostró el funcionamiento del vehículo autónomo, destacando la implementación de una FPGA como unidad principal de control, la integración de sensores TCRT5000 para el seguimiento de línea y el sistema de control de motores para la navegación autónoma.
+
+### Resultado Obtenido
+
+ 🏅 **Cuarto Lugar** en la Expo Inovatek 2026.
+
+Este resultado reconoce el trabajo realizado en el diseño, construcción y programación del sistema, así como la aplicación de tecnologías de hardware programable en proyectos de robótica móvil.
+
+### Evidencias
+
+#### Presentación del proyecto
+![Presentación](https://github.com/SpaceText/Seguidor_Linea_FPGA_UV2026./blob/main/pruebas/Imagen2expoInovatek.jpeg)
+
+#### Demostración del funcionamiento
+![Demostración](https://drive.google.com/file/d/1cjfaxPKcUf6BWnYPSk9UGNIVukGlOuq9/view?usp=sharing)
+
+#### Equipo participante
+![Equipo](https://github.com/SpaceText/Seguidor_Linea_FPGA_UV2026./blob/main/pruebas/Imagen3expoInovatek.jpeg)
+
+### Impacto del Proyecto
+
+La participación en la Expo Inovatek 2026 permitió compartir conocimientos sobre el uso de FPGA en sistemas embebidos, fomentar el interés por la robótica y recibir retroalimentación de docentes, estudiantes y asistentes al evento.
 
 
 
